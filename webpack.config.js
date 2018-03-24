@@ -4,30 +4,49 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+const extractStyle = new ExtractTextPlugin({
+  filename: "./css/style.css",
+  disable: process.env.NODE_ENV === "development"
+});
+
 module.exports = {
   entry: "./src/app.ts",
   devtool: "inline-source-map",
-  mode: "development", // NOTE: This must be production when building for a production environment
+  mode: "development",
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: ["ts-loader"],
         exclude: /node_modules/
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: "style-loader" // creates style nodes from JS strings
-          },
-          {
-            loader: "css-loader" // translates CSS into CommonJS
-          },
-          {
-            loader: "sass-loader" // compiles Sass to CSS
-          }
-        ]
+        use: extractStyle.extract({
+          use: "css-loader",
+          fallback: "style-loader"
+        })
+      },
+      {
+        test: /\.scss$/,
+        use: extractStyle.extract({
+          use: [
+            {
+              loader: "css-loader",
+              options: {
+                url: false,
+                minimize: true,
+                sourceMap: true
+              }
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
+        })
       },
       {
         test: /\.(png|jp(e*)g|svg)$/,
@@ -46,12 +65,17 @@ module.exports = {
         ]
       },
       {
-        test: /\.tag$/, 
-        exclude: [ /node_modules/ ], 
-        loader: "riotjs-loader", 
-        query: { 
-          type: "none" 
-        }
+        test: /\.tag$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "riot-tag-loader",
+            query: {
+              type: "es6",
+              hot: true
+            }
+          }
+        ]
       }
     ]
   },
@@ -68,13 +92,13 @@ module.exports = {
       template: "./index.html"
     }),
     new CopyWebpackPlugin([
-      { from: "./src/css", to: "css" },
+      { from: "./src/css", to: "css", ignore: ["*.scss"] },
       { from: "./src/images", to: "images" },
       { from: "./src/views", to: "views" }
     ]),
     new webpack.ProvidePlugin({
       riot: "riot"
     }),
-  ],
-  watch: true
+    extractStyle
+  ]
 };

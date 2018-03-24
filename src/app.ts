@@ -1,6 +1,9 @@
+// RiotJS
 import riot from "riot";
 
-import "./app.html";
-import "./views/name.html";
+// Views
+import "./app.tag";
+import "./views/name.tag";
 
+// Mount app
 riot.mount("*");

@@ -1,8 +1,8 @@
 <!-- Stylesheets -->
-require("./css/style.css");
+import "./style.scss";
 
 <!-- Views -->
-require("./views/name.tag");
+import "./views/name.tag";
 
 <app>
     <name first="Hello" last="World"></name>
