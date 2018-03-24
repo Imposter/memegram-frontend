@@ -48,6 +48,7 @@ tests/webhost/webtsc.js
 tests/cases/**/*.js
 tests/cases/**/*.js.map
 *.config
+!*.config.js
 scripts/debug.bat
 scripts/run.bat
 scripts/word2md.js
