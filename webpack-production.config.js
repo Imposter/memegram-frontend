@@ -1,11 +1,14 @@
 const webpack = require("webpack");
+const merge = require("webpack-merge");
 const config = require("./webpack.config.js");
 
-config.mode = "production";
-config.devtool = "eval";
-config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    output: { comments: false },
-    exclude: [/\.min\.js$/gi] // Skip minified
-}));
-
-module.exports = config;
+module.exports = merge(config, {
+    mode: "production",
+    devtool: "source-map",
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            exclude: [/\.min\.js$/gi] // Skip minified
+        })
+    ]
+});

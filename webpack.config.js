@@ -10,7 +10,13 @@ const extractStyle = new ExtractTextPlugin({
 });
 
 module.exports = {
-  entry: "./src/app.ts",
+  entry: [
+    // Program entrypoint
+    "./src/app.ts",
+
+    // Global materialize-css loader and configuration
+    "materialize-loader!./src/libs/materialize-css/materialize.config.js"
+  ],
   devtool: "inline-source-map",
   mode: "development",
   module: {
@@ -65,6 +71,23 @@ module.exports = {
         ]
       },
       {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              name: "./fonts/[hash]-[name].[ext]",
+              mimetype: "application/font-woff"
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "file-loader"
+      },
+      {
         test: /\.tag$/,
         exclude: /node_modules/,
         use: [
@@ -83,7 +106,8 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"]
   },
   output: {
-    filename: "source.js",
+    filename: "bundle.js",
+    chunkFilename: "bundle.js",
     path: path.resolve(__dirname + "/dist/")
   },
   plugins: [
@@ -95,10 +119,14 @@ module.exports = {
       { from: "./src/scripts", to: "scripts", ignore: ["*.ts"] },
       { from: "./src/css", to: "css", ignore: ["*.scss"] },
       { from: "./src/images", to: "images" },
+      { from: "./src/fonts", to: "fonts" },
       { from: "./src/views", to: "views" }
     ]),
     new webpack.ProvidePlugin({
-      riot: "riot"
+      $: "jquery",
+      jQuery: "jquery",
+      riot: "riot",
+      materialize: "materialize-css"
     }),
     extractStyle
   ]
