@@ -11,11 +11,14 @@ const extractStyle = new ExtractTextPlugin({
 
 module.exports = {
   entry: [
-    // Program entrypoint
-    "./src/app.ts",
-
     // Global materialize-css loader and configuration
-    "materialize-loader!./src/libs/materialize-css/materialize.config.js"
+    "materialize-loader!./src/libs/materialize-css/materialize.config.js",
+
+    // Vendor
+    "./src/vendor.js",
+
+    // Program entrypoint
+    "./src/app.js"
   ],
   devtool: "inline-source-map",
   mode: "development",
@@ -113,12 +116,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "Memegram",
-      template: "./index.html"
+      template: "./src/index.html"
     }),
     new CopyWebpackPlugin([
       { from: "./src/scripts", to: "scripts", ignore: ["*.ts"] },
       { from: "./src/css", to: "css", ignore: ["*.scss"] },
-      { from: "./src/images", to: "images" },
+      { from: "./src/images", to: "images", ignore: ["*.psd"] },
       { from: "./src/fonts", to: "fonts" },
       { from: "./src/views", to: "views" }
     ]),
