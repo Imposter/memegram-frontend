@@ -92,6 +92,7 @@ module.exports = {
       template: "./index.html"
     }),
     new CopyWebpackPlugin([
+      { from: "./src/scripts", to: "scripts", ignore: ["*.ts"] },
       { from: "./src/css", to: "css", ignore: ["*.scss"] },
       { from: "./src/images", to: "images" },
       { from: "./src/views", to: "views" }
