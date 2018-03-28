@@ -1,0 +1,42 @@
+// Import Material Icons
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+// Include Materialize CSS defaults
+@import "~materialize-css/sass/components/_color-variables.scss";
+
+// Include colors
+@import "./colors.scss";
+
+// Import Materialize CSS
+@import "~materialize-css/sass/materialize.scss";
+
+// Variables
+$logo-height: 32px;
+
+.logo-icon {
+    height: $logo-height;
+    margin: calc((64px - #{$logo-height}) / 2);
+}
+
+.logo-title {
+    height: $logo-height;
+    margin-top: calc((64px - #{$logo-height}) / 2);
+    margin-bottom: calc((64px - #{$logo-height}) / 2);
+}
+
+// Search bar
+.nav-wrapper .input-field input[type=search] {
+	height: 64px;
+}
+
+// Ensure body is always using the maximum space available so footer stays at bottom
+#app-body {
+    display: flex;
+    min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+}
