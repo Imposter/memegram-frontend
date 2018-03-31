@@ -27,7 +27,8 @@
 							<ul class="right">
 								<li><a href="#"><i class="material-icons">explore</i></a></li>
 								<li><a href="#"><i class="material-icons">view_list</i></a></li>
-								<li><a href="#"><i class="material-icons">exit_to_app</i></a></li>
+								<li show={ opts.app.services.auth.loggedIn }><a href="#" onclick={ attemptLogout }><i class="material-icons">exit_to_app</i></a></li>
+								<li show={ !opts.app.services.auth.loggedIn }><a href="#login"><i class="material-icons">account_circle</i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -75,11 +76,10 @@
 				<div class="col l4 offset-l2 s12">
 					<h5 class="white-text">Links</h5>
 					<ul>
-						<li><a class="grey-text text-lighten-3" href="#">Admin / Moderator Login</a></li>
-						<li><a class="grey-text text-lighten-3" href="#">Rules</a></li>
-						<li><a class="grey-text text-lighten-3" href="#">Terms of Service</a></li>
-						<li><a class="grey-text text-lighten-3" href="#">Contact Us</a></li>
-						<li><a class="grey-text text-lighten-3" href="#">About Us</a></li>
+						<li><a class="grey-text text-lighten-3" href="#rules">Rules</a></li>
+						<li><a class="grey-text text-lighten-3" href="#tos">Terms of Service</a></li>
+						<li><a class="grey-text text-lighten-3" href="#contact">Contact Us</a></li>
+						<li><a class="grey-text text-lighten-3" href="#about">About Us</a></li>
 					</ul>
 				</div>
 			</div>
@@ -99,11 +99,13 @@
 	</script>
 
 	<script>
-		// TODO: Riot app design
-		// The following is just temporary to design views
-		this.on("mount", function () {
-			riot.mount("#app-body", "login-view");
-		});
+		import { app } from "./scripts/application";
+
+		// App handlers
+		this.attemptLogout = (e) => {
+			// TODO: ...
+			console.log("logout!");
+		};
 	</script>
 
 </app>

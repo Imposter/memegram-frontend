@@ -40,3 +40,8 @@ $logo-height: 32px;
 main {
 	flex: 1 0 auto;
 }
+
+// Ensure pointer is used for all links
+a {
+	cursor: pointer;
+}

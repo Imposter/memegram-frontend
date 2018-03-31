@@ -28,7 +28,7 @@ module.exports = {
 					{
 						loader: "babel-loader",
 						options: {
-							presets: ["babel-preset-env"]
+							presets: ["babel-preset-es2015-riot", "babel-preset-env"]
 						}
 					},
 					{ loader: "ts-loader" }
@@ -92,10 +92,6 @@ module.exports = {
 					}
 				]
 			},
-			/*{
-			  test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-			  loader: "file-loader"
-			},*/
 			{
 				test: /\.tag$/,
 				exclude: /node_modules/,
@@ -104,7 +100,7 @@ module.exports = {
 						loader: "riot-tag-loader",
 						query: {
 							type: "es6",
-							hot: true
+							hot: false
 						}
 					}
 				]
@@ -133,7 +129,8 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery",
-			riot: "riot"
+			riot: "riot",
+			route: "riot-route"
 		}),
 		extractStyle
 	]

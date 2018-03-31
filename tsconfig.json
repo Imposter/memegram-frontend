@@ -8,6 +8,7 @@
     "strict": true,
     "noImplicitAny": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+	"emitDecoratorMetadata": true,
+	"lib": ["es2015", "dom"]
   }
 }
