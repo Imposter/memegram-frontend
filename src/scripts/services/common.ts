@@ -1,5 +1,5 @@
-export enum RoleType {
-    Admin,
-    Moderator,
-    User
+export interface ModelBase {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
 }

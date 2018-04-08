@@ -2,23 +2,27 @@ import * as riot from "riot";
 import route from "riot-route";
 import { Observable } from "./observable";
 import { Service } from "./service";
-import { AuthService } from "./services/auth-service";
 
 export interface ApplicationOptions {
 	// Constants
 	name: string;
 	date: Date;
+	options: any;
 
 	// View management
 	targetView: string;
 	availableViews: string[];
 	defaultView: string;
+
+	// Services
+	services: Service[];
 }
 
-export class Application extends Observable {
+export class Application {
 	// Constants
 	public readonly name: string;
 	public readonly date: Date;
+	public readonly options: any;
 
 	// View management
 	private root?: riot.Tag; 
@@ -28,68 +32,69 @@ export class Application extends Observable {
 	private currentView?: riot.Tag;
 
 	// Services
-	public readonly services: { [key: string]: Service };
+	public readonly services: Service[];
 
 	constructor(opts: ApplicationOptions) {
-		super();
-
 		// Initialize constants
 		this.name = opts.name;
 		this.date = opts.date;
+		this.options = opts.options;
 
 		// View management
 		this.targetView = opts.targetView;
 		this.availableViews = opts.availableViews;
 		this.defaultView = opts.defaultView;
 
-		// Initialize services
-		this.services = {};
+		// Services
+		this.services = opts.services;
 
 		// Setup view callbacks
 		route(this.loadRoute);
 	}
 
-	public addService(service: Service) {
-		this.services[service.getName()] = service;
+	public getService<TService extends Service>(name: string): TService {
+		for (var service of this.services) {
+			if (service.getName() == name) {
+				return service as TService;
+			}
+		}
+		
+		throw new Error(`Service ${name} not found`);
 	}
 
-	public beginRouting(tag: riot.Tag) {
+	public initialize(tag: riot.Tag) {
 		this.root = tag;
 
-		// Set app for root
-		(this.root as any).app = this;
+		// Initialize services
+		for (var service of this.services) {
+			service.initialize(this.root);
+		}
 
 		// Begin routing
 		route.start(true);
 
+		// Causes call stack overflow
+		/*
 		// Update on all events
 		this.root.on("*", function() {
-			console.log("APP: ON UPDATE!"); // TODO: Test
 			tag.update();
 		});
+		*/
 	}
 
-	// NOTE: This whole following code is wrong, it won't work, fuck man, fix this shit
-
-	// NOTE: "this" refers to riot.Tag
-	private loadView(view: string, args: any[]) {
-		var app: Application = (this as any).app;
-
+	private loadView(view: string, args: any) {
 		if (app.currentView)
 			app.currentView.unmount(true);
 
 		var opts = {
 			app: app, 
-			args: args 
+			args: args
 		};
 
-		app.currentView = riot.mount("#app-body", app.targetView, opts)[0];
+		app.currentView = riot.mount(app.targetView, view, opts)[0];
 	}
 
-	public loadRoute(view: string, ...args: any[]) {
-		var app: Application = (this as any).app;
-		if (app == null) app = this;
-
+	public loadRoute(view: string, args: any) {
 		if (view == "") {
 			view = app.defaultView;
 		}
@@ -99,6 +104,34 @@ export class Application extends Observable {
 		} else {
 			console.error(`View ${view} does not exist!`);
 		}
+	}
+
+	public mountElement(selector: string | Element, view: string, args: any) {
+		if (app.availableViews.indexOf(view) > -1) {
+			riot.mount(selector, `${view}-view`, args);
+		} else {
+			console.error(`View ${view} does not exist!`);
+		}
+	}
+
+	public on(event: string, callback: riot.ObservableCallback) {
+		if (this.root) this.root.on(event, callback);
+		return this;
+	}
+
+	public one(event: string, callback: riot.ObservableCallback) {
+		if (this.root) this.root.one(event, callback);
+		return this;
+	}
+
+	public off(event: string, callback?: riot.ObservableCallback) {
+		if (this.root) this.root.off(event, callback);
+		return this;
+	}
+
+	public trigger(event: string, ...args: any[]) {
+		if (this.root) this.root.trigger(event, args);
+		return this;
 	}
 }
 

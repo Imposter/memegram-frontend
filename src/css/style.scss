@@ -11,8 +11,20 @@
 // Import Materialize CSS
 @import "~materialize-css/sass/materialize.scss";
 
+// Import LazyLoadXT
+@import "~lazyloadxt/dist/jquery.lazyloadxt.fadein.css";
+
+// Import Dropify
+@import "~dropify/dist/css/dropify.css";
+
 // Variables
 $logo-height: 32px;
+
+// Materialize chips fix
+.chips.focus {
+    border-bottom: 1px solid $secondary-color !important;
+    box-shadow: 0 1px 0 0 $secondary-color !important;
+}
 
 .logo-icon {
     height: $logo-height;
@@ -44,4 +56,24 @@ main {
 // Ensure pointer is used for all links
 a {
 	cursor: pointer;
+}
+
+// Tag section
+.tag-section {
+    padding-top: 1rem;
+    padding-bottom: 0rem;
+}
+
+// Reveal section comments
+.card-reveal {
+    overflow-y: hidden !important;
+}
+
+.card-reveal-comments {
+    overflow-y: auto;
+    height: calc(100% - 48px);
+}
+
+.file-icon {
+    content: "";
 }

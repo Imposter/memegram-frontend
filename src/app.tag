@@ -6,29 +6,39 @@
 					<div class="nav row">
 						<div class="col s2">
 							<!-- Logo icon -->
-							<a href="#" class="brand-logo">
+							<a href="#" onclick={ openDisplay } class="brand-logo">
 								<img class="logo-icon" src="images/memegram-icon-light.png" />
 								<img class="logo-title" src="images/memegram-title-light.png" />
 							</a>
 						</div>
-						
-						<div class="col s8">
-							<form>
-								<div class="input-field">
-									<input id="search" type="search" required>
-									<label class="label-icon" for="search"><i class="material-icons">search</i></label>
-									<i class="material-icons">close</i>
-								</div>
-							</form>
-						</div>
 
-						<a href="#" data-target="side-navigation" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-						<div class="col s2 hide-on-med-and-down">
+						<a href="#" data-target="side-navigation" class="sidenav-trigger">
+							<i class="material-icons">menu</i>
+						</a>
+						<div class="col s2 hide-on-med-and-down right">
 							<ul class="right">
-								<li><a href="#"><i class="material-icons">explore</i></a></li>
-								<li><a href="#"><i class="material-icons">view_list</i></a></li>
-								<li show={ opts.app.services.auth.loggedIn }><a href="#" onclick={ attemptLogout }><i class="material-icons">exit_to_app</i></a></li>
-								<li show={ !opts.app.services.auth.loggedIn }><a href="#login"><i class="material-icons">account_circle</i></a></li>
+								<li>
+									<a href="#" onclick={ openSearch }>
+										<i class="material-icons">search</i>
+									</a>
+								</li>
+								<li>
+									<a href="#" onclick={ openCreate }>
+										<i class="material-icons">create</i>
+									</a>
+								</li>
+								<li>
+									<a href="#" onclick={ openDisplay }>
+										<i class="material-icons">explore</i>
+									</a>
+								</li>
+								<!--
+								<li>
+									<a href="#topics">
+										<i class="material-icons">view_list</i>
+									</a>
+								</li>
+								-->
 							</ul>
 						</div>
 					</div>
@@ -37,25 +47,29 @@
 		</div>
 
 		<!-- Sidebar -->
-		<!-- TODO: Design -->
 		<ul id="side-navigation" class="sidenav">
 			<li>
-				<div class="user-view">
-					<div class="background">
-						<!--<img src="images/office.jpg">-->
-					</div>
-					<!--<a href="#user"><img class="circle" src="images/yuna.jpg"></a>-->
-					<a href="#name"><span class="white-text name">John Doe</span></a>
-					<a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-				</div>
+				<a href="#" onclick={ openSearch }>
+					<i class="material-icons">search</i>
+				</a>
 			</li>
-			<li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-			<li><a href="#!">Second Link</a></li>
 			<li>
-				<div class="divider"></div>
+				<a href="#" onclick={ openCreate }>
+					<i class="material-icons">create</i>
+				</a>
 			</li>
-			<li><a class="subheader">Subheader</a></li>
-			<li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+			<li>
+				<a href="#" onclick={ openDisplay }>
+					<i class="material-icons">explore</i>
+				</a>
+			</li>
+			<!--
+			<li>
+				<a href="#topics">
+					<i class="material-icons">view_list</i>
+				</a>
+			</li>
+			-->
 		</ul>
 	</header>
 
@@ -76,10 +90,19 @@
 				<div class="col l4 offset-l2 s12">
 					<h5 class="white-text">Links</h5>
 					<ul>
-						<li><a class="grey-text text-lighten-3" href="#rules">Rules</a></li>
-						<li><a class="grey-text text-lighten-3" href="#tos">Terms of Service</a></li>
-						<li><a class="grey-text text-lighten-3" href="#contact">Contact Us</a></li>
-						<li><a class="grey-text text-lighten-3" href="#about">About Us</a></li>
+						<!-- TODO: Write these up! -->
+						<li>
+							<a class="grey-text text-lighten-3" href="#rules">Rules</a>
+						</li>
+						<li>
+							<a class="grey-text text-lighten-3" href="#tos">Terms of Service</a>
+						</li>
+						<li>
+							<a class="grey-text text-lighten-3" href="#contact">Contact Us</a>
+						</li>
+						<li>
+							<a class="grey-text text-lighten-3" href="#about">About Us</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -92,20 +115,24 @@
 	</footer>
 
 	<script>
+		import { app } from "./scripts/application";
+
 		this.on("mount", function () {
 			// Setup sidenav
 			$("#side-navigation").sidenav();
 		});
-	</script>
 
-	<script>
-		import { app } from "./scripts/application";
+		this.openSearch = (e) => {
+			app.loadRoute("search");
+		}
 
-		// App handlers
-		this.attemptLogout = (e) => {
-			// TODO: ...
-			console.log("logout!");
-		};
+		this.openCreate = (e) => {
+			app.loadRoute("create");
+		}
+
+		this.openDisplay = (e) => {
+			app.loadRoute("display");
+		}
 	</script>
 
 </app>

@@ -19,9 +19,25 @@ export class Observable implements riot.Observable {
 }
 
 export class Observer {
-	protected readonly observable: Observable;
+	private o: Observable;
 
 	constructor(observable: Observable) {
-		this.observable = observable;
+		this.o = observable;
+	}
+
+	protected get observable() {
+		return this.o;
+	}
+}
+
+export class LatentObserver {
+	private o?: Observable;
+
+	public initialize(observable: Observable) {
+		this.o = observable;
+	}
+
+	protected get observable(): Observable {
+		return this.o as Observable;
 	}
 }

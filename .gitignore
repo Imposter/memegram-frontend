@@ -4,7 +4,6 @@ notes/
 *.log
 
 # Javascript
-*.js
 *.js.map
 
 # Typescript
