@@ -1,22 +1,11 @@
 import { ModelBase } from "./common";
-import { Observable } from "../observable";
 import { Service, ServiceResult } from "../service";
-
-export interface Image {
-	_id: string;
-	filename: string;
-	contentType: string;
-	length: number;
-	chunkSize: number;
-	uploadDate: Date;
-	md5: string;
-}
 
 export interface Post extends ModelBase {
 	topics: string[];
 	name: string;
 	caption: string;
-	image: Image;
+	image: string;
 }
 
 export interface Settings {
@@ -50,7 +39,7 @@ export class PostService extends Service {
 	public async create(options: CreatePostOptions): Promise<ServiceResult<Post>> {
 		var result = await this.sendFormRequest<Post>("POST", "/create", {}, options);
 
-		this.observable.trigger("post::create", result);
+		this.observable.trigger(`service::${this.getName()}::create`, result);
 
 		return result;
 	}
@@ -58,7 +47,7 @@ export class PostService extends Service {
 	public async getRandomName(): Promise<ServiceResult<string>> {
 		var result = await this.sendJSONRequest<string>("GET", "/name", {}, {});
 
-		this.observable.trigger("post::getRandomName", result);
+		this.observable.trigger(`service::${this.getName()}::getRandomName`, result);
 
 		return result;
 	}
@@ -66,7 +55,7 @@ export class PostService extends Service {
 	public async getSettings(): Promise<ServiceResult<Settings>> {
 		var result = await this.sendJSONRequest<Settings>("GET", "/settings", {}, {});
 
-		this.observable.trigger("post::getSettings", result);
+		this.observable.trigger(`service::${this.getName()}::getSettings`, result);
 
 		return result;
 	}
@@ -74,7 +63,7 @@ export class PostService extends Service {
 	public async find(options?: FindPostsOptions): Promise<ServiceResult<Post[]>> {
 		var result = await this.sendJSONRequest<Post[]>("POST", "/find", {}, options);
 
-		this.observable.trigger("post::find", result);
+		this.observable.trigger(`service::${this.getName()}::find`, result);
 
 		return result;
 	}

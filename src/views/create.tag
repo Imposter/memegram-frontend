@@ -17,7 +17,7 @@
                                     <label for="input-username" class="active">Name</label>
                                 </div>
                                 <div class="input-field col s12">
-                                    <input id="input-caption" type="text">
+                                    <textarea id="input-caption" class="materialize-textarea"></textarea>
                                     <label for="input-caption">Caption</label>
                                 </div>
                                 <div class="input-field col s12">
@@ -54,7 +54,8 @@
             var settings = settingsResult.data;
 
             // Set caption length limit
-            $("#input-caption").attr("maxlength", settings.postCharacterLimit);
+            $("#input-caption").attr("data-length", settings.postCharacterLimit);
+            $("#input-caption").characterCounter();
 
             // Initialize chips
             $("#input-topics-chips").chips({
@@ -117,6 +118,7 @@
             }
 
             try {
+                // TODO: Disable post button
                 var result = await PostService.create({
                     topics: topicArray, 
                     caption: caption, 

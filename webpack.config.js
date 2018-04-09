@@ -130,7 +130,8 @@ module.exports = {
 			$: "jquery",
 			jQuery: "jquery",
 			riot: "riot",
-			route: "riot-route"
+			route: "riot-route",
+			timeago: "timeago.js"
 		}),
 		extractStyle
 	]

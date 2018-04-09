@@ -19,12 +19,7 @@
 
 // Variables
 $logo-height: 32px;
-
-// Materialize chips fix
-.chips.focus {
-    border-bottom: 1px solid $secondary-color !important;
-    box-shadow: 0 1px 0 0 $secondary-color !important;
-}
+$comment-button-height: 56px;
 
 .logo-icon {
     height: $logo-height;
@@ -71,7 +66,11 @@ a {
 
 .card-reveal-comments {
     overflow-y: auto;
-    height: calc(100% - 48px);
+    height: calc(100% - 48px - #{$comment-button-height});
+}
+
+.collection .collection-item.avatar {
+    min-height: unset !important;
 }
 
 .file-icon {

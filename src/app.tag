@@ -4,10 +4,10 @@
 			<nav>
 				<div class="nav-wrapper">
 					<div class="nav row">
-						<div class="col s2">
+						<div class="col s2 m12">
 							<!-- Logo icon -->
 							<a href="#" onclick={ openDisplay } class="brand-logo">
-								<img class="logo-icon" src="images/memegram-icon-light.png" />
+								<img class="logo-icon hide-on-med-and-down" src="images/memegram-icon-light.png" />
 								<img class="logo-title" src="images/memegram-title-light.png" />
 							</a>
 						</div>
@@ -15,7 +15,7 @@
 						<a href="#" data-target="side-navigation" class="sidenav-trigger">
 							<i class="material-icons">menu</i>
 						</a>
-						<div class="col s2 hide-on-med-and-down right">
+						<div class="col s2 m12 hide-on-med-and-down right">
 							<ul class="right">
 								<li>
 									<a href="#" onclick={ openSearch }>
@@ -50,17 +50,17 @@
 		<ul id="side-navigation" class="sidenav">
 			<li>
 				<a href="#" onclick={ openSearch }>
-					<i class="material-icons">search</i>
+					<i class="material-icons">search</i>Search
 				</a>
 			</li>
 			<li>
 				<a href="#" onclick={ openCreate }>
-					<i class="material-icons">create</i>
+					<i class="material-icons">create</i>Create new Post
 				</a>
 			</li>
 			<li>
 				<a href="#" onclick={ openDisplay }>
-					<i class="material-icons">explore</i>
+					<i class="material-icons">explore</i>Explore
 				</a>
 			</li>
 			<!--

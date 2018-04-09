@@ -12,31 +12,34 @@
         this.posts = [];
 
         this.getPosts = async (e) => {
-            // Get topics from parameters
+            // Get parameters
             var topics = [];
+            var keywords = null;
             if (this.opts.args) {
                 topics = this.opts.args.topics;
+                keywords = this.opts.args.keywords;
             }
 
-            // TODO: Get search parameters
-
             // From
+            var count = app.options.postFetchLimit;
             var from = null;
             if (this.posts != null && this.posts.length > 0) {
                 var lastPost = this.posts[this.posts.length - 1];
                 from = lastPost.createdAt;
+                count++;
             }
 
             // Get posts
             var result = await PostService.find({
+                keywords: keywords,
                 topics: topics,
-                count: app.options.postFetchLimit,
+                count: count,
                 from: from
             });
 
-            // Update posts to have URLs to image service
+            // Update posts to have URLs to image service, and date strings
             for (var post of result.data) {
-                post.url = PostService.getImageUrl(post.id);
+                post.image = PostService.getImageUrl(post.id);
             }
 
             // Add post if it doesn't exist already
@@ -68,18 +71,19 @@
 
             // Download more data when scrolled to bottom
             var self = this;
-            $(window).scroll(async function () {
-                if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+            this.scrollHandler = async function () {
+                if ($(this).scrollTop() + $(this).height() + app.options.scrollLoadY >= $(document).height()) {
                     // Get posts
                     await self.getPosts();
                 }
-            });
+            };
 
-            // Lazy load
-            $(".lazy").lazy({
-                effect: "fadeIn",
-                effectTime: 1000,
-                threshold: 0
+            // Add scroll listener
+            $(window).on("scroll", this.scrollHandler);
+
+            this.on("before-unmount", function() {
+                // Remove scroll listener
+                $(window).off("scroll", this.scrollHandler);
             });
         });
     </script>
