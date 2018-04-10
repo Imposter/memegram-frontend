@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "start": "http-server --port ${PORT:-8080} dist",
     "dev-server": "webpack-dev-server",
     "build-dev": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.prod.config.js"
