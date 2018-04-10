@@ -6,10 +6,9 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server",
-    "start": "http-server --port ${PORT:-8080} dist",
-    "prestart": "npm run build",
-    "build": "webpack -p"
+    "dev-server": "webpack-dev-server",
+    "build-dev": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.prod.config.js"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
