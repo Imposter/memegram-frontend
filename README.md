@@ -6,7 +6,7 @@ Memes are a form self-expression, humor and a way to convey emotion. However, me
 The following are requirements to compile and run the server:
 - Node.js with Node Package Manager (npm) ([Details](https://nodejs.org/en/download/))
 - Typescript v2.x+ ([Details](https://www.typescriptlang.org/index.html#download-links))
-- Webpack 4.x+ ([Details](https://www.typescriptlang.org/index.html#download-links))
+- Webpack 4.x+ ([Details](https://webpack.js.org/))
 - MongoDB v3.6.x+ server and database ([Details](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/))
 
 ### Setup
