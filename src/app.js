@@ -15,9 +15,6 @@ global.timeago = require("timeago.js");
 // jQuery Lazy Load
 require("jquery-lazy/jquery.lazy.js");
 
-// jQuery LazyLoadXT
-require("lazyloadxt/dist/jquery.lazyloadxt.js"); // TODO: Replace with Lazy Load
-
 // Materialize CSS (Runtime)
 require("materialize-css/dist/js/materialize.js");
 
@@ -40,26 +37,27 @@ import { CommentService } from "./scripts/services/comment-service";
 require("./app.tag");
 require("./views/post.tag");
 require("./views/display.tag");
+require("./views/search.tag");
 require("./views/create.tag");
-
-// Configure server
-Service.serverUrl = "http://localhost:12400/api/";
-Service.timeout = 2500; // ms
+require("./views/tos.tag");
 
 // Create app
+console.log(`Creating app for ${process.env.NODE_ENV}`);
 const app = createApp({
     name: "Memegram",
     date: new Date(),
     options: {    
         postFetchLimit: 10,
         commentFetchLimit: 20,
-        scrollLoadY: 10, 
+        scrollLoadY: 10, // px
     },
 
     targetView: "#app-body",
-    availableViews: [ "post", "display", "create" ],
+    availableViews: [ "post", "display", "search", "create", "tos" ],
     defaultView: "display",
 
+    serverUrl: process.env.API_URL,
+    serverTimeout: 5000, // ms
     services: [
         new PostService(),
         new CommentService()

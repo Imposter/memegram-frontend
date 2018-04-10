@@ -21,6 +21,7 @@ export interface CreatePostOptions {
 }
 
 export interface FindPostsOptions {
+	id?: string;
 	topics?: string[];
 	keywords?: string;
 	from?: Date;

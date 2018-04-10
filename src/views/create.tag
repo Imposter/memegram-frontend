@@ -6,7 +6,7 @@
                     <span class="card-title">Create Post</span>
                     <p>
                         Please enter the following information to create your post. By proceeding, you acknowledge that you agree to our
-                        <a href="#tos">terms of service</a>.
+                        <a href="#" onclick={ openTermsOfService }>terms of service</a>.
                     </p>
                     <div class="section"></div>
                     <div class="row">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="card-action">
-                    <button class="btn waves-effect waves-light" type="submit" onclick={ attemptPostCreate }>
+                    <button id="button-create-post" class="btn waves-effect waves-light" type="submit" onclick={ createPost }>
                         <i class="material-icons left">create</i>
                         Create Post
                     </button>
@@ -51,10 +51,10 @@
         this.on("mount", async function () {
             // Get settings
             var settingsResult = await PostService.getSettings();
-            var settings = settingsResult.data;
+            this.settings = settingsResult.data;
 
             // Set caption length limit
-            $("#input-caption").attr("data-length", settings.postCharacterLimit);
+            $("#input-caption").attr("data-length", this.settings.postCharacterLimit);
             $("#input-caption").characterCounter();
 
             // Initialize chips
@@ -65,7 +65,7 @@
 
             // Initialize file input
             $("#input-file").dropify({
-                maxFileSize: (settings.postImageSizeLimit / (1024 * 1024)) + "MB", // Limit in MB
+                maxFileSize: (this.settings.postImageSizeLimit / (1024 * 1024)) + "MB", // Limit in MB
                 allowedFormats: ["portrait", "square", "landscape"],
                 defaultFile: "",
                 tpl: {
@@ -83,11 +83,11 @@
 
         this.keyDown = async (e) => {
             if (event.key === "Enter") {
-                await this.attemptPostCreate();
+                await this.createPost();
             }
         };
 
-        this.attemptPostCreate = async (e) => {
+        this.createPost = async (e) => {
             // Get post details
             var name = $("#input-username").val();
             var caption = $("#input-caption").val();
@@ -96,7 +96,13 @@
 
             // Check if caption exists
             if (!caption.length) {
-                M.toast({ html: "Invalid caption!" });
+                M.toast({ html: "Caption cannot be empty!" });
+                return;
+            }
+
+            // Check if caption is too long
+            if (caption.length > this.settings.postCharacterLimit) {
+                M.toast({ html: `Caption cannot exceed ${this.settings.postCharacterLimit} characters!` });
                 return;
             }
 
@@ -117,22 +123,33 @@
                 topicArray.push(topic.tag);
             }
 
+            // Disable post button
+            $("#button-create-post").addClass("disabled");
+
             try {
-                // TODO: Disable post button
                 var result = await PostService.create({
-                    topics: topicArray, 
-                    caption: caption, 
-                    file: file, 
+                    topics: topicArray,
+                    caption: caption,
+                    file: file,
                     name: name
                 });
 
-                // TODO: Redirect!
-                M.toast({ html: `Created post: ${result.data.id}` });
+                M.toast({ html: `Created post!` });
+
+                // Redirect
+                app.loadRoute("display", {
+                    id: result.data.id
+                });
             } catch (error) {
                 M.toast({ html: `An error occurred while trying to create post` });
                 M.toast({ html: error });
             }
+            
+            // Enable post button
+            $("#button-create-post").removeClass("disabled");
         };
+
+        this.openTermsOfService = e => app.loadRoute("tos");
     </script>
 </create-view>
 

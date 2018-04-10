@@ -13,9 +13,11 @@
 
         this.getPosts = async (e) => {
             // Get parameters
+            var id = null;
             var topics = [];
             var keywords = null;
             if (this.opts.args) {
+                id = this.opts.args.id;
                 topics = this.opts.args.topics;
                 keywords = this.opts.args.keywords;
             }
@@ -30,7 +32,9 @@
             }
 
             // Get posts
+            console.log("looking for " + id);
             var result = await PostService.find({
+                id: id,
                 keywords: keywords,
                 topics: topics,
                 count: count,

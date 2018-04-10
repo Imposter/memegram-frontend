@@ -32,13 +32,6 @@
 										<i class="material-icons">explore</i>
 									</a>
 								</li>
-								<!--
-								<li>
-									<a href="#topics">
-										<i class="material-icons">view_list</i>
-									</a>
-								</li>
-								-->
 							</ul>
 						</div>
 					</div>
@@ -63,13 +56,6 @@
 					<i class="material-icons">explore</i>Explore
 				</a>
 			</li>
-			<!--
-			<li>
-				<a href="#topics">
-					<i class="material-icons">view_list</i>
-				</a>
-			</li>
-			-->
 		</ul>
 	</header>
 
@@ -81,6 +67,7 @@
 
 	<!-- Footer -->
 	<footer class="page-footer">
+		<!--
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12">
@@ -90,12 +77,11 @@
 				<div class="col l4 offset-l2 s12">
 					<h5 class="white-text">Links</h5>
 					<ul>
-						<!-- TODO: Write these up! -->
 						<li>
 							<a class="grey-text text-lighten-3" href="#rules">Rules</a>
 						</li>
 						<li>
-							<a class="grey-text text-lighten-3" href="#tos">Terms of Service</a>
+							<a class="grey-text text-lighten-3" href="#" onclick={ openTermsOfService }>Terms of Service</a>
 						</li>
 						<li>
 							<a class="grey-text text-lighten-3" href="#contact">Contact Us</a>
@@ -107,6 +93,7 @@
 				</div>
 			</div>
 		</div>
+		-->
 		<div class="footer-copyright">
 			<div class="container">
 				Copyright &copy; { opts.app.date.getFullYear() } { opts.app.name }. All Rights Reserved.
@@ -122,17 +109,10 @@
 			$("#side-navigation").sidenav();
 		});
 
-		this.openSearch = (e) => {
-			app.loadRoute("search");
-		}
-
-		this.openCreate = (e) => {
-			app.loadRoute("create");
-		}
-
-		this.openDisplay = (e) => {
-			app.loadRoute("display");
-		}
+		this.openSearch = (e) => app.loadRoute("search");
+		this.openCreate = (e) => app.loadRoute("create");
+		this.openDisplay = (e) => app.loadRoute("display");
+		this.openTermsOfService = e => app.loadRoute("tos");
 	</script>
 
 </app>

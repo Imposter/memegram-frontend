@@ -116,6 +116,9 @@ module.exports = {
 		path: path.resolve(__dirname + "/dist/")
 	},
 	plugins: [
+		new webpack.EnvironmentPlugin({
+			API_URL: "http://localhost:12400/api/"
+		}),
 		new HtmlWebpackPlugin({
 			title: "Memegram",
 			template: "./src/index.html"

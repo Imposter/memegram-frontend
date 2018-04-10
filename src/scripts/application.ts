@@ -15,6 +15,8 @@ export interface ApplicationOptions {
 	defaultView: string;
 
 	// Services
+	serverUrl: string;
+	serverTimeout: number;
 	services: Service[];
 }
 
@@ -32,6 +34,8 @@ export class Application {
 	private currentView?: riot.Tag;
 
 	// Services
+	public serverUrl: string;
+	public serverTimeout: number;
 	public readonly services: Service[];
 
 	constructor(opts: ApplicationOptions) {
@@ -46,6 +50,8 @@ export class Application {
 		this.defaultView = opts.defaultView;
 
 		// Services
+		this.serverUrl = opts.serverUrl;
+		this.serverTimeout = opts.serverTimeout;
 		this.services = opts.services;
 
 		// Setup view callbacks
@@ -66,6 +72,9 @@ export class Application {
 		this.root = tag;
 
 		// Initialize services
+		Service.serverUrl = this.serverUrl;
+		Service.timeout = this.serverTimeout;
+
 		for (var service of this.services) {
 			service.initialize(this.root);
 		}

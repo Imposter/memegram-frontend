@@ -1,8 +1,8 @@
-$primary-color: color("green", "base");//color("red", "accent-4");
+$primary-color: color("deep-purple", "base");
 $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
 
-$secondary-color: color("green", "accent-4");//color("red", "lighten-1") !default;
+$secondary-color: color("deep-purple", "accent-4");
 $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
 

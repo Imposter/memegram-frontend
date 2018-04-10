@@ -43,7 +43,7 @@
             <h4>Create comment on { name }'s post</h4>
             <p>
                 Please enter the following information to create your comment. By proceeding, you acknowledge that you agree to our
-                <a href="#tos">terms of service</a>.
+                <a href="#" onclick={ openTermsOfService }>terms of service</a>.
             </p>
             <div class="section"></div>
             <div class="row">
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#" onclick={ postComment } class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+            <a id="button-create-comment-{ id }" href="#" onclick={ postComment } class="modal-action modal-close waves-effect btn">Create</a>
         </div>
     </div>
 
@@ -124,22 +124,39 @@
 
             // Check if comment exists
             if (!comment.length) {
-                M.toast({ html: "Invalid comment!" });
+                M.toast({ html: "Comment cannot be empty!" });
                 return;
             }
 
-            // Create post
-            await CommentService.create({
-                postId: this.id,
-                name: name,
-                comment: comment
-            });
+            // Check if comment is too long
+            if (comment.length > this.settings.commentCharacterLimit) {
+                M.toast({ html: `Comment cannot exceed ${this.settings.commentCharacterLimit} characters!` });
+                return;
+            }
+                
+            // Disable create button
+            $(`#button-create-comment-${this.id}`).addClass("disabled");
 
-            // Get new comments
-            await this.getComments();
+            // Create post
+            try {
+                await CommentService.create({
+                    postId: this.id,
+                    name: name,
+                    comment: comment
+                });
+
+                // Get new comments
+                await this.getComments();
+            } catch (error) {
+                M.toast({ html: `An error occurred while trying to create comment` });
+                M.toast({ html: error });
+            }
+                
+            // Enable create button
+            $(`#button-create-comment-${this.id}`).removeClass("disabled");
         }
 
-        this.on("update", function () {
+        this.on("updated", function () {
             // Set avatars for all comments/post
             $(`img[data-avatar]`).avatar({
                 size: 42 // px
@@ -151,14 +168,15 @@
                 effect: "fadeIn",
                 effectTime: 1000,
                 threshold: 0
+                //TODO: defaultImage/placeholder (some placeholder gif?)
             });
 
             // Get settings
             var settingsResult = await CommentService.getSettings();
-            var settings = settingsResult.data;
+            this.settings = settingsResult.data;
 
             // Set caption length limit
-            $(`#input-comment-${this.id}`).attr("data-length", settings.commentCharacterLimit);
+            $(`#input-comment-${this.id}`).attr("data-length", this.settings.commentCharacterLimit);
             $(`#input-comment-${this.id}`).characterCounter();
 
             // Initialize create comment modal
@@ -176,7 +194,7 @@
 
             // Download more data when scrolled to bottom
             var self = this;
-            this.scrollHandler = async function () {
+            this.scrollHandler = async function () { // TODO: Only update if scrolled down!
                 if ($(this).scrollTop() + $(this).innerHeight() + app.options.scrollLoadY >= $(this)[0].scrollHeight) {
                     // Get comments
                     await self.getComments();
@@ -191,5 +209,7 @@
                 $(`#comments-collection-${this.id}`).off("scroll", this.scrollHandler);
             });
         });
+
+		this.openTermsOfService = e => app.loadRoute("tos");
     </script>
 </post-view>

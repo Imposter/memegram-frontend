@@ -76,3 +76,12 @@ a {
 .file-icon {
     content: "";
 }
+
+// Footer fix
+.page-footer {
+    padding-top: 0px !important;
+}
+
+.page-footer .footer-copyright {
+    background-color: unset !important;
+}
