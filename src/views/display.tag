@@ -32,7 +32,6 @@
             }
 
             // Get posts
-            console.log("looking for " + id);
             var result = await PostService.find({
                 id: id,
                 keywords: keywords,

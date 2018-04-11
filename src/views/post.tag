@@ -15,7 +15,7 @@
                 </div>
                 <div class="divider" if={ topics }></div>
                 <div class="tag-section" if={ topics }>
-                    <div class="chip" each={ topic in topics }>{ topic }</div>
+                    <div class="chip" each={ topic in topics } data-topic={ topic } onclick={ findPosts }>{ topic }</div>
                 </div>
             </div>
             <div class="card-reveal">
@@ -28,7 +28,6 @@
                         <span class="title">{ name }</span>
                         <span class="right">posted { timeago().format(new Date(createdAt)) }</span>
                         <p>{ comment }</p>
-                        <!-- TODO: Share button, which takes to individual display menu with just one post (used on create too!) -->
                     </li>
                 </ul>
                 <a class="btn-floating btn-large waves-effect waves-light right modal-trigger" href="#create-comment-{ id }">
@@ -76,6 +75,14 @@
 
         // Loaded comments
         this.comments = [];
+
+        this.findPosts = (e) => {
+            var topic = e.target.dataset.topic;
+
+            app.loadRoute("display", {
+                topics: [ topic ]
+            });
+        }
 
         this.getComments = async (e) => {
             // From
@@ -133,7 +140,7 @@
                 M.toast({ html: `Comment cannot exceed ${this.settings.commentCharacterLimit} characters!` });
                 return;
             }
-                
+
             // Disable create button
             $(`#button-create-comment-${this.id}`).addClass("disabled");
 
@@ -151,7 +158,7 @@
                 M.toast({ html: `An error occurred while trying to create comment` });
                 M.toast({ html: error });
             }
-                
+
             // Enable create button
             $(`#button-create-comment-${this.id}`).removeClass("disabled");
         }
@@ -194,7 +201,7 @@
 
             // Download more data when scrolled to bottom
             var self = this;
-            this.scrollHandler = async function () { // TODO: Only update if scrolled down!
+            this.scrollHandler = async function () { // TODO: Only update if scrolled down! (Improvement)
                 if ($(this).scrollTop() + $(this).innerHeight() + app.options.scrollLoadY >= $(this)[0].scrollHeight) {
                     // Get comments
                     await self.getComments();
@@ -210,6 +217,6 @@
             });
         });
 
-		this.openTermsOfService = e => app.loadRoute("tos");
+        this.openTermsOfService = e => app.loadRoute("tos");
     </script>
 </post-view>
