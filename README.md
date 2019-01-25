@@ -1,4 +1,4 @@
-# Memegram Backend
+# Memegram Frontend
 ### Introduction
 Memes are a form self-expression, humor and a way to convey emotion. However, memes have become a part of mainstream culture virtually undistinguishable from normal social media. We decided to create a platform exclusively devoted to memes and nothing else. Memegram allows users to quickly, efficiently and anonymously upload their own memes onto the site, and anyone can access and view them. Comments are also utilized so that other users can also express themselves and their opinions on the meme. When a meme is uploaded, the user is prompted to enter topics. These topics are tags which are utilized for searching. Memegram is a platform that we created to create a community for everyone who enjoys the humors of memes. Everyone is welcome to the platform and is encouraged to express their creativity, humor and feelings through memes.
 
